@@ -18,21 +18,21 @@ pipeline {
   }
   
   stages {
-    stage('Clean WS') {
+    stage('Build setup') {
        //when { expression { false } }
        steps {
-        sh 'echo "Clean workspace"'
+        sh 'echo "Build setup"'
          //cleanWs()
          //checkout scm
        }
     }
-    stage('Checkout SCM') {
-       //when { expression { false } }
-       steps {
-        sh 'echo "Gerrit checkout"'
-         //checkout scm
-       }
-    }
+    // stage('Checkout SCM') {
+    //    //when { expression { false } }
+    //    steps {
+    //     sh 'echo "Gerrit checkout"'
+    //      //checkout scm
+    //    }
+    // }
     stage('Build Docker Images') {
       steps {
         sh 'echo "Build docker images"'
@@ -46,7 +46,7 @@ pipeline {
            # mkdir -p deploy-sama5d27-wlsom1-ek
            # touch deploy-sama5d27-wlsom1-ek/build_file.obj
            # date >> deploy-sama5d27-wlsom1-ek/build_file.obj
-           
+
            sh scripts_pipelines/bitbake_build/main.sh
            echo "...Build Done..."
         '''
