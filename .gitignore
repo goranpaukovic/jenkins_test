@@ -17,3 +17,4 @@ hob-image-*.bb
 *.orig
 *.rej
 *~
+vscode-bitbake-build/

@@ -18,46 +18,32 @@ pipeline {
   }
   
   stages {
-    stage('Clean WS') {
-       //when { expression { false } }
-       steps {
-        sh 'echo "Clean workspace"'
-         //cleanWs()
-         //checkout scm
-       }
-    }
-    stage('Checkout SCM') {
-       //when { expression { false } }
-       steps {
-        sh 'echo "Gerrit checkout"'
-         //checkout scm
-       }
-    }
-    stage('Build Docker Images') {
-      steps {
-        sh 'echo "Build docker images"'
-        // docker build .
-      }
-    }
-    stage('Bitbake build') {
+    // stage('Clean WS') {
+    //   when { expression { false } }
+    //   steps {
+    //     cleanWs()
+    //     checkout scm
+    //   }
+    // }
+    stage('Build sama5d27-wlsom1-ek') {
       steps {
         sh '''
-           echo "...Bitbake/Yocto Build..."
+           echo "...Build..."
+           id
+           id -u
            # mkdir -p deploy-sama5d27-wlsom1-ek
            # touch deploy-sama5d27-wlsom1-ek/build_file.obj
            # date >> deploy-sama5d27-wlsom1-ek/build_file.obj
-           
-           sh scripts_pipelines/bitbake_build/main.sh
+           sh scripts_pipelines/build_sama5d27-wlsom1-ek.sh
            echo "...Build Done..."
         '''
       }
     }
     stage('Unit Tests') {
-      when { expression { false } }
       steps {
         sh '''
            echo "Started Unit Tests"
-           sh scripts_pipelines/unit_tests/main.sh
+           sh scripts_pipelines/unit_tests_sama5d27-wlsom1-ek.sh
            echo "Finished Unit Tests"
         '''
       }
@@ -77,11 +63,11 @@ pipeline {
         sh 'echo "Finished Integration tests"'
       }
     }
-    stage('Copy artifacts') {
+    stage('Copy artifacts sama5d27-wlsom1-ek') {
       steps {
         sh '''
           echo "Copy artifacts"
-          sh scripts_pipelines/copy_artifacts/main.sh
+          sh scripts_pipelines/copy_artifacts.sh
         '''
       }
     }
