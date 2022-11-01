@@ -50,7 +50,7 @@ pipeline {
            # touch deploy-sama5d27-wlsom1-ek/build_file.obj
            # date >> deploy-sama5d27-wlsom1-ek/build_file.obj
 
-           sh scripts_pipelines/bitbake_build/main.sh
+           sh scripts_pipelines/bitbake_build/main.sh ${JOB_NAME,,}
            echo "...Build Done..."
         '''
       }
@@ -60,7 +60,7 @@ pipeline {
       steps {
         sh '''
            echo "Started Unit Tests"
-           sh scripts_pipelines/unit_tests/main.sh
+           sh scripts_pipelines/unit_tests/main.sh ${JOB_NAME,,}
            echo "Finished Unit Tests"
         '''
       }

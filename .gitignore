@@ -18,3 +18,4 @@ hob-image-*.bb
 *.rej
 *~
 vscode-bitbake-build/
+*copy.sh
