@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 job_name=$1
-docker_image_name="bitbake_build-${job_name,,}"
+this_folder="200_bitbake_build"
+docker_image_name="${this_folder}-${job_name,,}"
 echo "Create a container from image $docker_image_name"
 docker run -i \
            -v /opt/yocto_shares/sstate-cache:/opt/yocto_shares/sstate-cache \
@@ -8,4 +9,4 @@ docker run -i \
            -v $PWD:/workdir \
            --workdir=/workdir \
            $docker_image_name \
-           ./scripts_pipelines/bitbake_build/build_oe-core.sh
+           ./scripts_pipelines/${this_folder}/build_oe-core.sh

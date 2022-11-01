@@ -4,7 +4,7 @@ echo $2
 build_name=$1
 workspace=$2
 
-dockerfiles_folders=("bitbake_build" "unit_tests")
+dockerfiles_folders=("200_bitbake_build" "300_unit_tests")
 for dockerfile in ${dockerfiles_folders[@]}; do
   echo $dockerfile
   cd $workspace
