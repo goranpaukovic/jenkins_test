@@ -21,7 +21,7 @@ pipeline {
     stage('Build setup') {
        //when { expression { false } }
        steps {
-        sh 'echo "Build setup"'
+        echo "Build setup"
          //cleanWs()
          //checkout scm
        }
@@ -35,57 +35,51 @@ pipeline {
     // }
     stage('Build Docker Images') {
       steps {
-        sh '''
-          echo "Build docker images"
-          bash scripts_pipelines/build_docker_images/main.sh  ${JOB_NAME}  ${WORKSPACE}    
-        '''
+        echo "Build docker images"
+        sh 'bash scripts_pipelines/100_build_docker_images/main.sh  ${JOB_NAME}  ${WORKSPACE}'
         // docker build .
       }
     }
     stage('Bitbake build') {
       steps {
+        echo "...Bitbake/Yocto Build..."
         sh '''
-           echo "...Bitbake/Yocto Build..."
            # mkdir -p deploy-sama5d27-wlsom1-ek
            # touch deploy-sama5d27-wlsom1-ek/build_file.obj
            # date >> deploy-sama5d27-wlsom1-ek/build_file.obj
 
-           bash scripts_pipelines/bitbake_build/main.sh ${JOB_NAME}
-           echo "...Build Done..."
+           bash scripts_pipelines/200_bitbake_build/main.sh ${JOB_NAME}
         '''
+        echo "...Build Done..."
       }
     }
     stage('Unit Tests') {
       //when { expression { false } }
       steps {
-        sh '''
-           echo "Started Unit Tests"
-           bash scripts_pipelines/unit_tests/main.sh ${JOB_NAME}
-           echo "Finished Unit Tests"
-        '''
+        echo "Started Unit Tests"
+        sh 'bash scripts_pipelines/300_unit_tests/main.sh ${JOB_NAME}'
+        echo "Finished Unit Tests"
       }
     }
     stage('Smoke Test') {
       steps {
-        sh  'echo "Started smoke tests"'
+        echo "Started smoke tests"
         build job: 'smoke-test', parameters: [string(name: 'targetEnvironment', value: env.JOB_NAME)]
         // copyArtifacts(projectName: 'smoke-test', selector: specific("${build.number}"));
-        sh 'echo "Finished smoke tests"'
+        echo "Finished smoke tests"
       }
     }
     stage('Integration Test') {
       steps {
-        sh  'echo "Started Integration tests"'
+        echo "Started Integration tests"
         //build job: 'integration-test', parameters: [string(name: 'targetEnvironment', value: env.JOB_NAME)]
-        sh 'echo "Finished Integration tests"'
+        echo "Finished Integration tests"
       }
     }
     stage('Copy artifacts') {
       steps {
-        sh '''
-          echo "Copy artifacts"
-          sh scripts_pipelines/copy_artifacts/main.sh
-        '''
+        echo "Copy artifacts"
+        sh 'sh scripts_pipelines/400_copy_artifacts/main.sh'
       }
     }
     stage('Sync sources GM') {
@@ -93,18 +87,20 @@ pipeline {
         branch comparator: 'REGEXP', pattern: '^(master|ccu/.*|r.*)$'
       }
       steps {
+        echo "Sync"
         sh '''
-          echo "Sync"
+          # run a script
+          # sh "./scripts/sync-sources-gm-ccu.sh"
         '''
-        //sh "./scripts/sync-sources-gm-ccu.sh"
       }
     }
     stage('Delivery to an artifactory') {
-        steps {
-      sh '''
+      steps {
         echo "Upload artifacts to the Artifactory"
-      '''
-    }
+        sh '''
+          # run a script
+        '''
+      }
     }
   }
   post {
@@ -132,9 +128,7 @@ pipeline {
         allowEmptyResults: true,
         testResults: 'unit_tests/reports/*.xml'
       )
-      sh '''
-        echo "Finished"
-      '''
+      echo "Finished"
     }
   }
 }
