@@ -11,6 +11,6 @@ for dockerfile in ${dockerfiles_folders[@]}; do
   ls scripts_pipelines/$dockerfile/dockerfiles -ld
   ls scripts_pipelines/$dockerfile/dockerfiles
   cd scripts_pipelines/$dockerfile/dockerfiles
-  docker build -t ${dockerfile}-${build_name} .
+  docker build -t ${dockerfile,,}-${build_name,,} .
 done
 docker images
