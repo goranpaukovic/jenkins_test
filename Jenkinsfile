@@ -56,7 +56,7 @@ pipeline {
       }
     }
     stage('Unit Tests') {
-      when { expression { false } }
+      //when { expression { false } }
       steps {
         sh '''
            echo "Started Unit Tests"
