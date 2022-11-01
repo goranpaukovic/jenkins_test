@@ -35,8 +35,7 @@ pipeline {
     // }
     stage('Build Docker Images') {
       steps {
-        sh
-        '''
+        sh '''
           echo "Build docker images"
           sh ./scripts_pipelines/build_docker_images/main.sh  ${JOB_NAME}  ${WORKSPACE}    
         '''
