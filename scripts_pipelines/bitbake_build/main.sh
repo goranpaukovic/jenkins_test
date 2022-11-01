@@ -5,5 +5,5 @@ docker run -i \
            -v /opt/yocto_shares/downloads:/opt/yocto_shares/downloads \
            -v $PWD:/workdir \
            --workdir=/workdir \
-           bitbake_build-${job_name} \
+           bitbake_build-${job_name,,} \
            ./scripts_pipelines/bitbake_build/build_oe-core.sh
