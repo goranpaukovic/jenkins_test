@@ -37,7 +37,7 @@ pipeline {
       steps {
         sh '''
           echo "Build docker images"
-          sh ./scripts_pipelines/build_docker_images/main.sh  ${JOB_NAME}  ${WORKSPACE}    
+          bash scripts_pipelines/build_docker_images/main.sh  ${JOB_NAME}  ${WORKSPACE}    
         '''
         // docker build .
       }
